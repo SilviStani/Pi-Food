@@ -1,0 +1,108 @@
+.All{
+    background-image: url("../foto/cocina.jpg");
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    overflow: auto;
+    cursor: pointer;
+}
+
+.wrapper{
+    height: 100vh;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 20% 40% 40%;
+    grid-template-rows: 30% 35% 35%;
+    
+}
+.title{
+    color:  rgb(248, 210, 216);
+    margin-top: 2%;
+    margin-right: 50%;
+    margin-left: 2%;
+    justify-content: left;
+    text-shadow: 2px 2px black;
+    
+}
+@font-face {
+    font-family: neon;
+    src: url("../Components/text/NEON____.TTF");
+}
+
+.h1 {
+    font-family: neon;
+    src: url("../Components/text/NEON____.TTF");
+    margin-left: 15px;
+    margin-top: 10%;
+    align-items:center;
+    border-radius: 50%;
+    color: white;
+    font-weight: 200;
+    font-size: 50px;
+    text-shadow: 
+        .1vw 0vw .25vw pink, .2vw 0vw .25vw pink, .4vw 0vw .25vw pink, 
+      
+        .1vw 0vw   0vw rgb(202, 147, 157), .2vw 0vw   0vw rgb(202, 147, 157), .4vw 0vw   0vw rgb(202, 147, 157),
+        .1vw 0vw  .1vw rgb(202, 147, 157), .2vw 0vw  .1vw rgb(202, 147, 157), .4vw 0vw  .1vw rgb(202, 147, 157),
+        .1vw 0vw   2vw rgb(202, 147, 157), .2vw 0vw   2vw rgb(202, 147, 157), .4vw 0vw   2vw rgb(202, 147, 157), 
+      
+        .1vw 0vw   1vw rgb(212, 67, 93), .2vw 0vw   1vw rgb(212, 67, 93), .4vw 0vw   5vw  rgb(212, 67, 93), 
+        .1vw 0vw   5vw rgb(212, 67, 93), .2vw 0vw  20vw rgb(212, 67, 93), .4vw 0vw  10vw  rgb(212, 67, 93),
+        .1vw 0vw  10vw rgb(212, 67, 93), .2vw 0vw  30vw rgb(212, 67, 93), .4vw 0vw  10vw  rgb(212, 67, 93);
+}
+.h1:hover{
+    transition: all 1s ease;
+    font-size: 40px;
+   
+}
+
+.a{
+    margin-top: 5%;
+    margin-left: 30%; 
+    justify-content: center;
+    font-size: 15px;
+    background-color: rgba(255, 255, 255, 0.582);
+    width: 30%;
+    border-radius: 50%;
+    box-shadow: 5px 2px 2px 1px rgba(0, 0, 0, 0.2);
+    }
+    .a:hover{
+        transform: scale(1.1);
+    }
+.button{
+    margin-top: 3%;
+    background-color: rgba(255, 255, 255, 0.726);
+    border-radius: 50%;
+    border: none;
+    height: 50px ;
+    box-shadow: 5px 2px 2px 1px rgba(0, 0, 0, 0.2);
+    
+}
+.button:hover{
+    transform: scale(1.1);
+}
+.filters{
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    margin-left: 7%;
+    margin-top: 25%;
+}
+.containerRecipe{
+  grid-column: 2/4;
+  grid-row: 2/4;
+  justify-self: start;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  text-decoration: none;
+}
+select{
+    background-color: rgba(255, 255, 255, 0.575);
+    border-radius: 10px;
+    border-width: 1px;
+    border-color: rgb(170, 167, 167);
+}

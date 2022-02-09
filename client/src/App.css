@@ -1,5 +1,10 @@
 .App {
   text-align: center;
+  scroll-snap-type: y mandatory;
+  scrollbar-width: none;
+}
+::-webkit-scrollbar{
+  display: none;
 }
 
 .App-logo {
