@@ -1,0 +1,27 @@
+.pages{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-left: 40px;
+        margin-top: 40px;
+}
+.li{
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    margin-right: 20%;
+}
+.btn{
+    display: flex;
+    justify-content: center;
+    margin: 5px;
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.575);
+    border-radius: 50%;
+    border: none;
+    box-shadow: 1px 1px 1px 1px black;
+}
+.btn:hover{
+    transform: scale(1.1);
+    transition: all 1s ease;
+}
