@@ -7,9 +7,10 @@ const { API_KEY, API_KEY2 ,API_KEY3 } = process.env;
 
 
 
+
 router.get("/", async (req, resp, next) => {
 try {
-    const info = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=100`);
+    const info = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY2}&addRecipeInformation=true&number=100`);
     const diets = info.data?.results.map(e => e.diets);
     const flatDiets = diets.flat().concat("vegetarian", "Ketogenic");
     const finalList = [...new Set(flatDiets)];

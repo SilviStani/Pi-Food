@@ -9,9 +9,9 @@ function Card({title, diets,image, spoonacularScore, servings}) {
     
     <div class={styles.card_text}>
       <h2 className={styles.title}>{title}</h2>
-      <p className={styles.diets}>{diets}</p>
-      <p className={styles.spoonacularScore}>{spoonacularScore}</p>
-      <p className={styles.servings}>{servings}</p>
+      <p className={styles.ps}>{diets}</p>
+      <p className={styles.ps}>{spoonacularScore}</p>
+      <p className={styles.ps}>{servings}</p>
     </div>
   </div>
   )}

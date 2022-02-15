@@ -106,8 +106,9 @@ select{
     border-color: rgb(170, 167, 167);
 }
 .pagination{
-    grid-column: 1/2;
-    grid-row: 3/4;   
+    grid-column:3/4;
+    grid-row: -4/-3;   
+    
 }
 .search{
   display: flex;

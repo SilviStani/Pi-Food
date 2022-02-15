@@ -7,19 +7,19 @@ const { getIdAll } = require("../Controllers/byId.js") ;
 
 
 
-router.get("/", async (req, resp, next) => {
+router.get("/", async (req, res, next) => {
 try {
     const name = req.query.name;
     const allRecipes = await getfusionRecipes();
     if(name){
         let recipe = allRecipes.filter(r => r.title?.toLowerCase().includes(name.toString().toLowerCase()))
         if(recipe.length >=1){
-            resp.status(200).send(recipe);
+            res.status(200).send(recipe);
         } else {
-            resp.status(404).send("Recipe Cannot Found");
+            res.status(404).send("Recipe Cannot Found");
         }
     } else {
-        resp.status(200).send(allRecipes);
+        res.status(200).send(allRecipes);
     }
     
 } catch (error) {
@@ -41,33 +41,39 @@ router.get("/:idRecipe", async (req, res, next) => {
     }
 });
 
-router.post("/create", async (req, res, next) => {
-
+router.post("/recipe", async (req, res) => {
+    let {
+        title, 
+        summary,
+        spoonacularScore, 
+        healthScore,
+        steps, 
+        image,
+        MadeOnDb,
+        diets
+    } = req.body;
+        
 try {
-    const { id, title, 
-            summary, spoonacularScore, 
-            healthScore, steps, 
-            readyInMinutes, image, MadeOnDb} = req.body;
+    let newRecipe = await Recipe.create({
+        title, 
+        summary, 
+        spoonacularScore, 
+        healthScore, 
+        steps, 
+        image, 
+        MadeOnDb
+    })
 
-    const newRecipe = await Recipe.create({
-        id, title, 
-        summary, spoonacularScore, 
-        healthScore, steps, 
-        readyInMinutes, image, MadeOnDb
-    });
+   let dietsdb = await Diets.findOne({
+       where: { name : diets }
+   })   
+   newRecipe.addDiets(dietsdb)
 
-    const recipeDiet = await Diets.findAll({
-        where:{
-            name: diets
-        }
-    });
-
-    newRecipe.addDiet(recipeDiet);    
-
-    return res.status(200).json("Your Recipe was Successfully Created");
+   res.status(201).json(newRecipe);
 
 } catch (error) {
-    next(error);
+    console.log(error);
+    res.status(404).json(error)
 }
 
 });

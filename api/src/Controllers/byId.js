@@ -1,11 +1,11 @@
 const {Sequelize} = require('sequelize');
 const axios = require("axios");
 const { Recipe, Diets } = require("../db");
-const { API_KEY, API_KEY2, API_KEY3 } = process.env;
+const { API_KEY, API_KEY2, API_KEY3, API_KEY4, API_KEY5 } = process.env;
 
 const getIdApi = async(id) => {
     try {
-        const apiUrl = await axios.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY}`);
+        const apiUrl = await axios.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY4}`);
        // const recipeInfo = [apiUrl];
         const e = apiUrl.data;
         return {

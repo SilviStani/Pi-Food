@@ -1,7 +1,7 @@
 import React from 'react';
 import {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {getRecipes, filterDiet, orderByName, getDiets} from '../Redux/actions';
+import {getRecipes, filterDiet, orderByName, filterCreated, getDiets, orderScore} from '../Redux/actions';
 import { Link } from 'react-router-dom';
 import styles from './Home.module.css';
 import Card from './Card';
@@ -15,7 +15,7 @@ const allRecipes = useSelector(state => state.allRecipes);
 const allDiets = useSelector(state => state.diets);
 
 const [currentPage, setCurrentPage] = useState(1); 
-const [recipesPagination, setRecipesPagination] = useState(9);
+const [recipesPagination,setRecipesPagination] = useState(9);
 const lastRecipeNumber = currentPage * recipesPagination;
 const firstRecipeNumber = lastRecipeNumber - recipesPagination;
 const currentRecipes = allRecipes.slice(firstRecipeNumber, lastRecipeNumber );
@@ -47,11 +47,23 @@ function handleDiets(e) {
 }
 
 function handleOrderByName(e){
+    e.preventDefault();
     dispatch(orderByName(e.target.value));
     setCurrentPage(1);
-    setOrder(`Ordenado ${e.target.value}`)
+    setOrder(e.target.value);
+  
 }
 
+function handleFilterCreated(e){
+    dispatch(filterCreated(e.target.value));
+}
+
+function handlerOrderScore(e){
+    e.preventDefault();
+    dispatch(orderScore(e.target.value))
+    setCurrentPage(1);
+    setOrder(e.target.value);
+}
 
   return (
      <div className={styles.All}>
@@ -62,21 +74,25 @@ function handleOrderByName(e){
             <  div className={styles.title}> <h1 className={styles.h1}>Recipers Site</h1> </div> </Link>
                 <div className={styles.createRecipe}>
                     <Link to='/recipes' className={styles.a}>Create Your Recipe</Link>
-                  <SearchBar className={styles.search}></SearchBar>
+                  <SearchBar className={styles.search}/>
                 </div>
                 <div>
                     <button className={styles.button} onClick={e => handleClick(e)}>Refresh</button>
-                   
+                    <Pagination className = {styles.pagination}
+                    recipesPagination = {recipesPagination}
+                    allRecipes = {allRecipes.length}
+                    pagination = {pagination}
+                />
                 </div>
                 
         <div className= {styles.filters}>
             <select name='' id='filter' onChange={(e) => handleOrderByName(e)} >
-                <option value="" >Select Order</option>
+                <option value="order" >Select Order</option>
                 <option value="asc">A/Z</option>
                 <option value="desc">Z/A</option>
             </select>
             <br />
-                <select className='filterContent' onChange={(e) => handleDiets(e)}>
+                <select onChange={(e) => handleDiets(e)}>
                 <option value="all" >Diets</option>
                  { 
                  allDiets?.map(diet => {
@@ -86,13 +102,13 @@ function handleOrderByName(e){
                     })}
                 </select>
             <br />
-                <select name='' id='' className='filterContent'>
-                    <option value="">Spoonacular Score</option>
+                <select name='' id='' onChange={ (e) => {handlerOrderScore(e)}}>
+                    <option value="score">Spoonacular Score</option>
                     <option value="min">Min Score</option>
                     <option value="max">Max Score</option>
                 </select>
             <br/>
-                <select name="" id="" className='filterContent'>
+                <select name="" id="" onChange={(e)=>{handleFilterCreated(e)}}>
                     <option value="All">All Recipes</option>
                     <option value="Created">Created</option>
                     <option value="Api">Existing</option>
@@ -117,11 +133,7 @@ function handleOrderByName(e){
                 })
             }
         </div>
-                <Pagination className = {styles.pagination}
-                    recipesPagination = {recipesPagination}
-                    allRecipes = {allRecipes.length}
-                    pagination = {pagination}
-                />
+              
     </div>
 </div>
 )}

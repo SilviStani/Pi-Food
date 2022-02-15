@@ -24,16 +24,25 @@ module.exports = (sequelize) => {
 
     spoonacularScore:{
       type: DataTypes.INTEGER,
+      validate: {
+        min:0,
+        max: 100
+      }
 
     },
 
     healthScore:{
       type: DataTypes.INTEGER,
+      allowNull:false,
+      validate: {
+        min: 0,
+        max: 100
+      }
       
     },
 
     steps:{
-      type: DataTypes.ARRAY(DataTypes.JSON),
+      type: DataTypes.STRING,
     },
 
     servings: {
@@ -42,13 +51,14 @@ module.exports = (sequelize) => {
 
     readyInMinutes: {
       type: DataTypes.INTEGER,
-    },
+    }, 
 
     image:{
       type: DataTypes.STRING,
+      defaultValue: "https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg"
     },
 
-    MadeOnDB: {
+    MadeOnDb: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: true,
