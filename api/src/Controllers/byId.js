@@ -1,24 +1,24 @@
 const {Sequelize} = require('sequelize');
 const axios = require("axios");
 const { Recipe, Diets } = require("../db");
-const { API_KEY, API_KEY2, API_KEY3, API_KEY4, API_KEY5 } = process.env;
+const { API_KEY, API_KEY2, API_KEY3, API_KEY4, API_KEY5, API_KEY6, API_KEY7, API_KEY8, API_KEY9 } = process.env;
 
 const getIdApi = async(id) => {
     try {
-        const apiUrl = await axios.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY4}`);
+        const apiUrl = await axios.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY8}`);
        // const recipeInfo = [apiUrl];
         const e = apiUrl.data;
         return {
             id: e.id,
             title: e.title,
-            summary: e.summary,
+            summary: e.summary.replace(/<[^>]*>?/g, ''),
             spoonacularScore: e.spoonacularScore,
             healthScore: e.healthScore,
             servings: e.servings,
             readyInMinutes: e.readyInMinutes,
             image: e.image,
             diets: e.diets.map( (e) => {return {name: e}}),
-            steps: e.analyzedInstructions[0]?.steps.map((s) => {return s.step}),
+            instructions: e.instructions.replace(/<[^>]*>?/g, ''),
             dishTypes: e.dishTypes.map(e => {return {name: e}}),
            
         };

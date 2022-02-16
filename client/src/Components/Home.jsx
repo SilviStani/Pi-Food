@@ -11,9 +11,9 @@ import SearchBar from './SearchBar';
 function Home() {
 
 const dispatch = useDispatch();
-const allRecipes = useSelector(state => state.allRecipes);
+const allRecipes = useSelector(state => state.filterRecipes);
 const allDiets = useSelector(state => state.diets);
-
+console.log("recetas", allRecipes)
 const [currentPage, setCurrentPage] = useState(1); 
 const [recipesPagination,setRecipesPagination] = useState(9);
 const lastRecipeNumber = currentPage * recipesPagination;
@@ -29,15 +29,13 @@ const pagination = (pageNumber) => {
 
 useEffect(() => {
     dispatch(getRecipes());
-}, [dispatch]);
-
-useEffect( () => {
     dispatch(getDiets());
-},[dispatch])
+}, [dispatch]);
 
 function handleClick(e){
     e.preventDefault();
     dispatch(getRecipes());
+    dispatch(getDiets());
 }
 
 function handleDiets(e) {
@@ -119,11 +117,12 @@ function handlerOrderScore(e){
             {
               currentRecipes?.map((r) => {
                     return (
-                        <Link to={'/recipes/' + r.id}>
+                        <Link to={ `/recipes/${r.id}` }>
                         <Card className={styles.cards}
                             image={r.image}
                             title={r.title}
-                            diets={r.diets.map(recipe => <p className={styles.diet} >{recipe.name}</p>)}
+                            dishTypes={r?.dishTypes?.map( dishtype => <p>{dishtype.name}</p>)}
+                            diets={r.diets.map(recipe => (<p className={styles.diet} >{recipe.name}</p>))}
                             spoonacularScore={`Spooancular Score: ${r.spoonacularScore}`}
                             servings={`Servings: ${r.servings}`}
                             key={r.id}

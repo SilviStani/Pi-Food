@@ -1,13 +1,16 @@
 import React from 'react';
-import { useEffect, useState } from 'react';
+import {  useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getDiets, postRecipes } from '../Redux/actions'; //traer de actions getdiets y postrecipes..
+import {  postRecipes, getRecipes, getDiets } from '../Redux/actions'; //traer de actions getdiets y postrecipes..
 import styles from './CreateRecipe.module.css';
+import { useEffect } from 'react';
 
 function validate(recipe){
     let errors = {};
     let regularExpression = /^[A-Za-zÑñÁáÉéÍíÓóÚúÜü\s]+$/;
+    let regExpUrl = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/g;
+    
 
     if ( !recipe.title.trim() ) {
         errors.title = "Your recipe need a title!"
@@ -18,6 +21,8 @@ function validate(recipe){
         errors.summary ="You need give a brief explanation about your recipe"
     } else if( !recipe.steps){
         errors.steps = "Must tell us how to make that delicius recipe"
+    }else if(!regExpUrl.test(recipe.image.trim())){
+        errors.image = "Must be a URL direction"
     }
     return errors;
 }
@@ -27,20 +32,24 @@ export default function CreateRecipe() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const allDiets = useSelector((state) => state.diets); //me traigo las dietas
-     
     //estado de manejo de errores:
      const [ errors, setErrors ] = useState({});
+     //me seteo un estado para crear mi receta... tengo q tener en mi pantalla un formulario => q se guarda en un estado
+     let [recipe, setRecipe] = useState({ // hago un objeto =>
+         title: "", 
+         summary: "",
+         spoonacularScore: 50, 
+         healthScore: 50,
+         steps: "", 
+         image: "",
+         diets: []
+     })
+     
+    useEffect(() => {
+        dispatch(getRecipes());
+        dispatch(getDiets());
+    }, [dispatch])
 
-    //me seteo un estado para crear mi receta... tengo q tener en mi pantalla un formulario => q se guarda en un estado
-    let [recipe, setRecipe] = useState({ // hago un objeto =>
-        title: "", 
-        summary: "",
-        spoonacularScore: 50, 
-        healthScore: 50,
-        steps: "", 
-        image: "",
-        diets: []
-    })
 
     let handleChange = (e) => {
         setRecipe({
@@ -60,9 +69,10 @@ export default function CreateRecipe() {
         })
     }
    
-    let handleSubmit = (e) => {
+   /* let handleSubmit = (e) => {
+        e.preventDefault();
+        setErrors(validate(recipe));
         if(!recipe.title && !recipe.summary){
-            e.preventDefault();
             return alert("The recipe needs a Title and a Summary")
         } else if(!recipe.diets.length) {
             e.preventDefault();
@@ -80,23 +90,45 @@ export default function CreateRecipe() {
             diets: []
         })
         navigate("/home"); 
+    }*/
+
+    let handleSubmit = (e) => {
+        e.preventDefault();
+        setErrors(validate(recipe));
+        if(recipe.title && recipe.summary && recipe.diets.length && !Object.keys(errors).length){
+            dispatch(postRecipes(recipe));
+            alert('Recipe successfully Created');
+            navigate('/home');
+            setRecipe({
+                title: "", 
+                summary: "",
+                spoonacularScore: 50, 
+                healthScore: 50,
+                steps: "", 
+                image: "",
+                diets: []
+            })
+        }else {
+            alert('All fields are required')
+        }
     }
 
-    let handleDelete = (e) => {
+    let handleDelete = (diet) => {
        
         setRecipe({
             ...recipe,
-            diets: recipe.diets.filter( d => d !== e) 
+            diets: recipe.diets.filter( d => d !== diet) 
         })
     }
 
+    console.log({recipe});
 
   return (
     <div className={styles.container}>
         <Link to='/home' className={styles.home}><button className={styles.button}>Home</button></Link>
         <div className={styles.CreateRecipe}>
         <h1>Create Your Recipe</h1>
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={ (e) => handleSubmit(e) } >
         <div className={styles.title}>
             <label>Title: </label>
             <input 
@@ -169,7 +201,10 @@ export default function CreateRecipe() {
             value={recipe.image}
             name="image"
             onChange={(e) => handleChange(e)}
-            />    
+            />  
+            {
+                errors.image && ( <p>{errors.image}</p>)
+            }  
         </div>
         <div className={styles.scores}>
            <select onChange={(e) => handleSelect(e)}>
@@ -198,7 +233,7 @@ export default function CreateRecipe() {
                </li>
            </ul>
         </div>
-        <button type='submit' onClick={ (e) => handleSubmit(e) } className={styles.submit}>Create Recipe</button>
+        <button type='submit' className={styles.submit}>Create Recipe</button>
         </form>
     </div>     
         </div>

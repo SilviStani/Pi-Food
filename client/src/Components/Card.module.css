@@ -3,7 +3,7 @@
   flex-direction: column;
   width: 15rem; 
   /* ver si la heigth conviene que sea "auto" */
-  height: 22rem;
+  height: 25rem;
   align-items: center;
   border-style: none;
   background-size:cover;
@@ -46,7 +46,8 @@
 
 .ps {
   margin-top: 5px;
-  font-size: 10px;
+  font-size: 12px;
+  
   font-weight: bolder;
   text-decoration: none;
 }

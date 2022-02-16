@@ -3,11 +3,11 @@ const router = Router();*/
 const {Sequelize} = require('sequelize');
 const axios = require("axios");
 const { Recipe, Diets } = require("../db");
-const { API_KEY, API_KEY2, API_KEY3, API_KEY4, API_KEY5 } = process.env;
+const { API_KEY, API_KEY2, API_KEY3, API_KEY4, API_KEY5, API_KEY6, API_KEY7, API_KEY8, API_KEY9 } = process.env;
 
 const getApiRecipes = async () => {
-    const apiUrl = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY4}&number=100&addRecipeInformation=true`);
-    const recipeInfo = await apiUrl.data.results.map( e => {
+    const apiUrl = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY8}&number=100&addRecipeInformation=true`);
+    const recipeInfo = await apiUrl.data?.results.map( e => {
         return {
             id: e.id,
             title: e.title,
@@ -18,7 +18,7 @@ const getApiRecipes = async () => {
             readyInMinutes: e.readyInMinutes,
             image: e.image,
             diets: e.diets.map( (e) => {return {name: e}}),
-            steps: e.analyzedInstructions[0]?.steps.map((s) => {return s.step}),
+            steps: e.analyzedInstructions[0]?.steps.map((e) => {return e.step}),
             dishTypes: e.dishTypes.map(e => {return {name: e}})
         };
 

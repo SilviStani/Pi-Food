@@ -32,11 +32,12 @@ function rootReducer(state = initialState, action) {
             );
             return {
                 ...state,
-                allRecipes: dietFilter,
+                filterRecipes: dietFilter,
+                
             } 
         case 'ORDER_BY_NAME':
             let orderRecipes = action.payload === 'asc' ? 
-            state.allRecipes.sort( function (a,b) {
+            state.filterRecipes.sort( function (a,b) {
                 if(a.title.toLowerCase() > b.title.toLowerCase()){
                     return 1;
                 }
@@ -45,7 +46,7 @@ function rootReducer(state = initialState, action) {
                 }
                     return 0;
             }) :
-            state.allRecipes.sort( function ( a, b) {
+            state.filterRecipes.sort( function ( a, b) {
                 if(a.title.toLowerCase() > b.title.toLowerCase()){
                     return -1;
                 }
@@ -56,19 +57,39 @@ function rootReducer(state = initialState, action) {
             })
             return{
                 ...state,
-                allRecipes: orderRecipes
+                filterRecipes: orderRecipes
             }
 
             case 'FILTER_CREATED':
-                 const createdFilter = action.payload === 'Created' ? state.filterRecipes.filter ( e => e.MadeOnDb)
+                let recipesFilter = [];
+                if( action.payload === 'All'){
+                   
+                    recipesFilter = state.allRecipes;
+                   
+                } else if( action.payload === 'Created'){
+                   
+                    recipesFilter = state.allRecipes.filter( e => e.MadeOnDb);
+                   
+                } else if( action.payload === 'Api'){
+                    
+                    recipesFilter = state.allRecipes.filter( e => !e.MadeOnDb);
+                    
+                }
+                return{
+                    ...state,
+                    filterRecipes: recipesFilter
+                }
+                 /*const createdFilter = action.payload === 'Created' ? state.filterRecipes.filter ( e => e.MadeOnDb)
                 : state.filterRecipes.filter ( e=> !e.MadeOnDb);
                 return {
                     ...state,
-                    allRecipes: createdFilter
-                }
-                case 'ORDER_BY_SCORE':
+                    filterRecipes: action.payload === "All" ? state.allRecipes : createdFilter
+                }*/
+              
+
+            case 'ORDER_BY_SCORE':
                     let orderScore = action.payload === 'min' ? 
-                    state.allRecipes.sort( function (a,b) {
+                    state.filterRecipes.sort( function (a,b) {
                         if(a.spoonacularScore > b.spoonacularScore){
                             return 1;
                         }
@@ -77,7 +98,7 @@ function rootReducer(state = initialState, action) {
                         }
                             return 0;
                     }) :
-                    state.allRecipes.sort( function ( a, b) {
+                    state.filterRecipes.sort( function ( a, b) {
                         if(a.spoonacularScore > b.spoonacularScore){
                             return -1;
                         }
@@ -88,18 +109,23 @@ function rootReducer(state = initialState, action) {
                     })
                     return{
                         ...state,
-                        allRecipes: orderScore
+                        filterRecipes: orderScore
                     }
                     
                     case 'GET_BY_NAME':
                         return{
                             ...state,
-                            allRecipes: action.payload
+                            filterRecipes: action.payload
                         }
                     case 'POST_RECIPE':
                         return {
                             ...state
                         }
+                        case 'GET_DETAILS':
+                            return {
+                                ...state,
+                                detail: action.payload
+                            }
                 default:
                         return state;
             

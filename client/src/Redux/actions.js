@@ -1,15 +1,14 @@
 import axios from 'axios';
 
 export function getRecipes() {
-    return function (dispatch){
-      axios.get("http://localhost:3001/recipes") // aca esta mi conexion entre el back y el front.... gracias thunk
-      .then(recipe => {
+    return async function (dispatch){
+      let recipe= await axios.get("http://localhost:3001/recipes") // aca esta mi conexion entre el back y el front.... gracias thunk
         return dispatch({
             type: 'GET-RECIPES',
             payload: recipe.data,
-        });
-      })         
-    };
+             
+    });
+  }
 }
 
 export function getDiets(){
@@ -30,7 +29,7 @@ export function getDiets(){
 export function getByTitle(title){
   return async function (dispatch){
     try{
-      let byTitle = await axios.get( `http://localhost:3001/recipes?name=${title}`);
+      let byTitle = await axios.get( `http://localhost:3001/recipes?name=${title}`); // http://localhost:3001/recipes?name=bife
       return dispatch({
         type: 'GET_BY_NAME',
         payload: byTitle.data //me devuelve la accion... es lo q devuelve la ruta asignandole el title
@@ -71,8 +70,26 @@ export function orderScore(payload){
 
 export function postRecipes(payload){
   return async function (dispatch) {
-    let newRecipe = await axios.post("http://localhost:3001/recipes/recipe", payload);
-    console.log(newRecipe);
-    return newRecipe;
+    try{
+      let newRecipe = await axios.post("http://localhost:3001/recipes/recipe", payload); //http://localhost:3001/recipes/recipe
+      console.log(newRecipe);
+      return newRecipe;
+    }
+      catch(error){
+        console.log(error);
+      }
+  }
+}
+export function getDetails(id){
+  return async function (dispatch){
+    try {
+      let recipe = await axios.get( `http://localhost:3001/recipes/${id}` );
+      return dispatch({
+         type: "GET_DETAILS",
+         payload: recipe.data
+      })
+    } catch(error){
+      console.log(error)
+    }
   }
 }

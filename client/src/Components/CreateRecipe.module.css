@@ -3,6 +3,8 @@
     width: 100vw;
     background-image: url("https://images.pexels.com/photos/4199145/pexels-photo-4199145.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
     background-size: cover;
+    flex-wrap: wrap;
+    display: flex;
 }
 
 .home{
@@ -74,5 +76,4 @@ ul{
     margin-bottom: 1% ;
     display: flex;
     flex-direction: row;
-  
 }
