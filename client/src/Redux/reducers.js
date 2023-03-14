@@ -1,8 +1,8 @@
 const initialState = {
-    allRecipes: [], //me traigo todo
-    filterRecipes: [], // hago el filtro y me guardo el state
-    diets: [] , // es ovbio
-    detail: [] // detalles por id
+    allRecipes: [], 
+    filterRecipes: [], 
+    diets: [] , 
+    detail: [] 
 };
 
 function rootReducer(state = initialState, action) {
@@ -20,16 +20,17 @@ function rootReducer(state = initialState, action) {
                 diets: action.payload,
             } 
         case 'FILTER_BY_DIET':
-            const recipes = state.filterRecipes;
-            const dietFilter = action.payload === "all" ? recipes //recipes es la copia del estado global donde me traigo all recipes
-            : recipes.filter(recipe => /*{
-                let diet = recipe.diets.map( d => d.name);
-                if (diet.includes(action.payload)){
+            const recipes = state.allRecipes;
+            const dietFilter = action.payload === "all" ? recipes 
+            //recipes es la copia del estado global donde me traigo all recipes
+            : recipes.filter(recipe => {
+                let diet = recipe.diets.map( d => d.name).includes(action.payload);
+                if (diet){
                     return recipe;
                 }
-            }*/
-            recipe.diets.map( r => r.name ).includes( action.payload )
-            );
+            })
+            /*recipe.diets.map( r => r.name ).includes( action.payload )
+            );*/
             return {
                 ...state,
                 filterRecipes: dietFilter,
@@ -58,9 +59,9 @@ function rootReducer(state = initialState, action) {
             return{
                 ...state,
                 filterRecipes: orderRecipes
-            }
+            } //copia del arreglo... no reordenar el arreglo propio
 
-            case 'FILTER_CREATED':
+        case 'FILTER_CREATED':
                 let recipesFilter = [];
                 if( action.payload === 'All'){
                    
@@ -87,46 +88,46 @@ function rootReducer(state = initialState, action) {
                 }*/
               
 
-            case 'ORDER_BY_SCORE':
-                    let orderScore = action.payload === 'min' ? 
-                    state.filterRecipes.sort( function (a,b) {
-                        if(a.spoonacularScore > b.spoonacularScore){
-                            return 1;
-                        }
-                        if(b.spoonacularScore > a.spoonacularScore) {
-                            return -1
-                        }
-                            return 0;
-                    }) :
-                    state.filterRecipes.sort( function ( a, b) {
-                        if(a.spoonacularScore > b.spoonacularScore){
-                            return -1;
-                        }
-                        if(b.spoonacularScore > a.spoonacularScore){
-                            return 1
-                        }
-                            return 0;
-                    })
-                    return{
-                        ...state,
-                        filterRecipes: orderScore
-                    }
+        case 'ORDER_BY_SCORE':
+             let orderScore = action.payload === 'min' ? 
+             state.filterRecipes.sort( function (a,b) {
+                 if(a.spoonacularScore > b.spoonacularScore){
+                     return 1;
+                 }
+                 if(b.spoonacularScore > a.spoonacularScore) {
+                     return -1
+                 }
+                     return 0;
+             }) :
+             state.filterRecipes.sort( function ( a, b) {
+                 if(a.spoonacularScore > b.spoonacularScore){
+                     return -1;
+                 }
+                 if(b.spoonacularScore > a.spoonacularScore){
+                     return 1
+                 }
+                     return 0;
+             })
+             return{
+                 ...state,
+                 filterRecipes: orderScore
+             }
                     
-                    case 'GET_BY_NAME':
-                        return{
-                            ...state,
-                            filterRecipes: action.payload
+        case 'GET_BY_NAME':
+             return{
+                 ...state,
+                 filterRecipes: action.payload
                         }
-                    case 'POST_RECIPE':
-                        return {
-                            ...state
-                        }
-                        case 'GET_DETAILS':
-                            return {
-                                ...state,
-                                detail: action.payload
-                            }
-                default:
+        case 'POST_RECIPE':
+                return {
+                    ...state
+                }
+        case 'GET_DETAILS':
+                return {
+                     ...state,
+                     detail: action.payload
+                 }
+            default:
                         return state;
             
     }

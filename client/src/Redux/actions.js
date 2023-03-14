@@ -40,6 +40,8 @@ export function getByTitle(title){
   }
 }
 
+
+
 export function filterDiet(payload){ 
   return {
     type: 'FILTER_BY_DIET',
@@ -88,8 +90,31 @@ export function getDetails(id){
          type: "GET_DETAILS",
          payload: recipe.data
       })
+      
     } catch(error){
       console.log(error)
     }
   }
 }
+
+
+
+
+
+/*
+export const getByTitle = (title) => {
+  return async function (dispatch) => {
+    try {
+      let byTitle = await axios.get( `http://localhost:3001/recipes?name=${title}`)
+      .then((byTitle) => {
+       return dispatch({
+        type: 'GET_BY_NAME',
+        payload: byTitle.data 
+        });
+      }) .ctach ((error) => {
+        alert("Sin resultados")
+      })
+    }
+  }
+} 
+*/

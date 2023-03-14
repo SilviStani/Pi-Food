@@ -68,29 +68,6 @@ export default function CreateRecipe() {
             diets: [...recipe.diets, e.target.value]
         })
     }
-   
-   /* let handleSubmit = (e) => {
-        e.preventDefault();
-        setErrors(validate(recipe));
-        if(!recipe.title && !recipe.summary){
-            return alert("The recipe needs a Title and a Summary")
-        } else if(!recipe.diets.length) {
-            e.preventDefault();
-            return alert("You must choose a diets for the recipe")
-        }
-        dispatch(postRecipes(recipe));
-        alert("Recipe Succesfully Created!");
-        setRecipe({
-            title: "", 
-            summary: "",
-            spoonacularScore: 50, 
-            healthScore: 50,
-            steps: "", 
-            image: "",
-            diets: []
-        })
-        navigate("/home"); 
-    }*/
 
     let handleSubmit = (e) => {
         e.preventDefault();
@@ -109,6 +86,7 @@ export default function CreateRecipe() {
                 diets: []
             })
         }else {
+            e.preventDefault();
             alert('All fields are required')
         }
     }
@@ -138,7 +116,7 @@ export default function CreateRecipe() {
             onChange={(e) => handleChange(e)}
             />   
             {
-                errors.title && ( <p>{errors.title}</p>)
+                errors.title && ( <p className={styles.error}>{errors.title}</p>)
             } 
         </div>
         <div>
@@ -151,7 +129,7 @@ export default function CreateRecipe() {
             onChange={(e) => handleChange(e)}
             /> 
             {
-                errors.summary && (<p>{errors.summary}</p>)
+                errors.summary && (<p className={styles.error}>{errors.summary}</p>)
             }   
         </div>
         <div className={styles.scores}>
@@ -191,7 +169,7 @@ export default function CreateRecipe() {
             onChange={(e) => handleChange(e)}
             />   
             {
-                errors.steps && ( <p>{errors.steps}</p>)
+                errors.steps && ( <p className={styles.error}>{errors.steps}</p>)
             } 
         </div>
         <div className={styles.scores} >
@@ -202,9 +180,9 @@ export default function CreateRecipe() {
             name="image"
             onChange={(e) => handleChange(e)}
             />  
-            {
-                errors.image && ( <p>{errors.image}</p>)
-            }  
+             {
+                errors.image && ( <p className={styles.error}>{errors.image}</p>)
+            } 
         </div>
         <div className={styles.scores}>
            <select onChange={(e) => handleSelect(e)}>
@@ -216,7 +194,7 @@ export default function CreateRecipe() {
                     return ( <option value={diet.name} key={diet.id}>{diet.name}</option>)
                 
                     })
-                    }
+                    } 
            </select>
            <ul>
                <li>
@@ -233,13 +211,19 @@ export default function CreateRecipe() {
                </li>
            </ul>
         </div>
-        <button type='submit' className={styles.submit}>Create Recipe</button>
+        <button type='submit' className={styles.submit} >Create Recipe</button>
         </form>
     </div>     
         </div>
        
   )
 }
+
+
+
+
+
+
 
 /*
 allDiets?.find( e => e.name === diet)?.name */

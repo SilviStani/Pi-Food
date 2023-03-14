@@ -8,6 +8,8 @@ import Card from './Card';
 import Pagination from './Pagination';
 import SearchBar from './SearchBar';
 
+
+
 function Home() {
 
 const dispatch = useDispatch();
@@ -19,6 +21,7 @@ const [recipesPagination,setRecipesPagination] = useState(9);
 const lastRecipeNumber = currentPage * recipesPagination;
 const firstRecipeNumber = lastRecipeNumber - recipesPagination;
 const currentRecipes = allRecipes.slice(firstRecipeNumber, lastRecipeNumber );
+ 
 
 const [order, setOrder] = useState(''); //para setear los estados en los filtros
 
@@ -28,9 +31,11 @@ const pagination = (pageNumber) => {
 }
 
 useEffect(() => {
+   
     dispatch(getRecipes());
     dispatch(getDiets());
-}, [dispatch]);
+     
+}, []);
 
 function handleClick(e){
     e.preventDefault();

@@ -3,7 +3,7 @@
   flex-direction: column;
   width: 15rem; 
   /* ver si la heigth conviene que sea "auto" */
-  height: 25rem;
+  height: auto;
   align-items: center;
   border-style: none;
   background-size:cover;

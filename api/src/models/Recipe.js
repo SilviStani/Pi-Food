@@ -10,6 +10,7 @@ module.exports = (sequelize) => {
       defaultValue: DataTypes.UUIDV4,
       allowNull: false,
       primaryKey: true,
+      unique: true 
       },
 
     title: {
@@ -69,6 +70,8 @@ module.exports = (sequelize) => {
       }
 
 
+  }, {
+    timestamps: false
   });
 };
 //Me traigo info tal como está en la api para no tener problemas de matching

@@ -67,7 +67,7 @@ try {
    let dietsdb = await Diets.findOne({
        where: { name : diets }
    })   
-   newRecipe.addDiets(dietsdb)
+   await newRecipe.addDiets(dietsdb) //es asincronico!!!!
 
    res.status(201).json(newRecipe);
 

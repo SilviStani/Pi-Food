@@ -6,16 +6,13 @@ import { useEffect } from 'react';
 import styles from './DetailsRecipe.module.css'
 
 export default function DetailsRecipe() {
-
 const dispatch = useDispatch();
 const recipeId = useParams();
 let myRecipe = useSelector( (state) => state.detail)
 
-
 useEffect( () => {
     dispatch(getDetails(recipeId.id));
 }, [ dispatch ] )
-
 
     return (
  <div className={styles.container}>
@@ -46,7 +43,6 @@ useEffect( () => {
             </div>
         }
         </div>
-            
     </div>    
   )
 }
